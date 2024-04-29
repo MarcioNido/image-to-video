@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Imagick;
-use ImagickException;
+use App\Services\FrameService\FrameService;
+use Intervention\Image\Interfaces\ImageInterface;
 
 /**
  * Class FfmpegService
@@ -11,9 +11,6 @@ use ImagickException;
  */
 class FfmpegService
 {
-    /**
-     * @throws ImagickException
-     */
     public function createVideo(array $frames, string $outputFile): void
     {
         // create temporary directory and save frames
@@ -21,11 +18,13 @@ class FfmpegService
         mkdir($tempDir);
 
         foreach ($frames as $key => $frame) {
-            /** @var Imagick $frame */
-            $frame->writeImage($tempDir . '/' . $key . '.png');
+            /** @var ImageInterface $frame */
+            $frame->toPng()->save($tempDir . '/' . $key . '.png');
         }
 
         // create video from frames using ffmpeg binary
-        exec("ffmpeg -f image2 -r 25 -s 1024X576 -i $tempDir/%d.png -r 25 -c:v prores -pix_fmt yuva444p10le {$outputFile}");
+        $framesPerSecond = FrameService::FRAMES_PER_SECOND;
+        exec("ffmpeg -f image2 -r $framesPerSecond -s 640x360 -i $tempDir/%d.png -r $framesPerSecond -vcodec libx264 -crf $framesPerSecond  -pix_fmt yuv420p $outputFile");
+//        exec("ffmpeg -f image2 -r {$framesPerSecond} -s 1024X576 -i $tempDir/%d.png -r {$framesPerSecond} -c:v prores -pix_fmt yuva444p10le {$outputFile}");
     }
 }

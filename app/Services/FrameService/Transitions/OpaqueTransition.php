@@ -2,33 +2,33 @@
 
 namespace App\Services\FrameService\Transitions;
 
-use Imagick;
 use ImagickException;
-use Intervention\Image\Drivers\Imagick\Core;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageInterface;
 
 class OpaqueTransition implements TransitionInterface
 {
     /**
      * @throws ImagickException
      */
-    public function __invoke(Imagick|Core $image1, Imagick|Core $image2, $numberOfFrames): array
+    public function __invoke(ImageInterface $image1, ImageInterface $image2, $numberOfFrames): array
     {
         $halfFrames = (int) $numberOfFrames / 2;
         $frames = [];
         $factor = 1 / $halfFrames;
 
-        $clonedImage1 = clone $image1;
+        $clonedImage1 = $image1->core()->native();
 
         for ($i = 1; $i <= $halfFrames; $i++) {
             $clonedImage1->setImageOpacity(1 - ($factor * $i));
-            $frames[] = clone $clonedImage1;
+            $frames[] = ImageManager::imagick()->read($clonedImage1);
         }
 
-        $clonedImage2 = clone $image2;
+        $clonedImage2 = $image2->core()->native();
 
         for ($i = 1; $i <= $halfFrames; $i++) {
             $clonedImage2->setImageOpacity($factor * $i);
-            $frames[] = clone $clonedImage2;
+            $frames[] = ImageManager::imagick()->read($clonedImage1);
         }
 
         return $frames;

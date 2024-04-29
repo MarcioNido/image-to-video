@@ -2,10 +2,15 @@
 
 namespace App\Services\FrameService\Transitions;
 
-use Imagick;
-use Intervention\Image\Drivers\Imagick\Core;
+use App\Enums\VideoSizeEnum;
+use App\ValueObjects\ImageSectionValueObject;
+use Intervention\Image\Interfaces\ImageInterface;
 
 interface TransitionInterface
 {
-    public function __invoke(Imagick|Core $image1, Imagick|Core $image2, $numberOfFrames): array;
+    public function __invoke(
+        ImageInterface $image1,
+        ImageSectionValueObject $imageSection,
+        VideoSizeEnum $videoSize
+    ): array;
 }

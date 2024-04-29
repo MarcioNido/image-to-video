@@ -2,10 +2,13 @@
 
 namespace App\Services\FrameService\Animations;
 
-use Imagick;
-use Intervention\Image\Drivers\Imagick\Core;
+use App\Enums\VideoSizeEnum;
+use App\ValueObjects\ImageSectionValueObject;
 
 interface AnimationInterface
 {
-    public function __invoke(Imagick|Core $image, int $numberOfFrames): array;
+    public function __invoke(
+        ImageSectionValueObject $imageSection,
+        VideoSizeEnum $videoSize
+    ): array;
 }
