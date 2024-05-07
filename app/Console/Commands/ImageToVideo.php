@@ -54,7 +54,7 @@ class ImageToVideo extends Command
             ->setVideoSize(VideoSizeEnum::MEDIUM)
             ->addImageSequence(
                 image: $images[0],
-                animationType: AnimationTypeEnum::TOP_LEFT_TO_BOTTOM_RIGHT,
+                animationType: AnimationTypeEnum::CENTER_ZOOM_IN,
                 seconds: 5,
             )->addImageSequence(
                 image: $images[1],
@@ -64,19 +64,19 @@ class ImageToVideo extends Command
                 transitionSeconds: 1
             )->addImageSequence(
                 image: $images[2],
-                animationType: AnimationTypeEnum::CENTER_ZOOM_OUT,
+                animationType: AnimationTypeEnum::TOP_LEFT_ZOOM_OUT,
                 seconds: 5,
                 transitionType: TransitionTypeEnum::MERGE,
                 transitionSeconds: 1
             )->addImageSequence(
                 image: $images[3],
-                animationType: AnimationTypeEnum::BOTTOM_RIGHT_TO_TOP_LEFT,
+                animationType: AnimationTypeEnum::CENTER_ZOOM_OUT,
                 seconds: 5,
                 transitionType: TransitionTypeEnum::MERGE,
                 transitionSeconds: 1
             )->addImageSequence(
                 image: $images[4],
-                animationType: AnimationTypeEnum::CENTER_ZOOM_IN,
+                animationType: AnimationTypeEnum::TOP_LEFT_ZOOM_IN,
                 seconds: 5,
                 transitionType: TransitionTypeEnum::MERGE,
                 transitionSeconds: 1
@@ -120,7 +120,14 @@ class ImageToVideo extends Command
 
         $frames = $this->sequence->getFrames();
 
-        $this->ffmpeg->createVideo($frames, storage_path('video-files/video_' . uniqid() . '.mp4'));
+        $videoFile = 'video-files/video_' . uniqid() . '.mp4';
+        $videoWithAudioFile = 'video-files/video_with_audio_' . uniqid() . '.mp4';
+
+        echo "Creating video...";
+        $this->ffmpeg->createVideo($frames, storage_path($videoFile));
+        echo "Adding audio...";
+        $this->ffmpeg->addAudio(storage_path($videoFile), 'storage/audio-files/Savfk-The-Travelling-Symphony.wav', storage_path($videoWithAudioFile));
+        echo "Video created successfully!";
 
     }
 }

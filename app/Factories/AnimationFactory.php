@@ -17,7 +17,9 @@ class AnimationFactory
             AnimationTypeEnum::BOTTOM_LEFT_TO_TOP_RIGHT,
             AnimationTypeEnum::BOTTOM_RIGHT_TO_TOP_LEFT,
             AnimationTypeEnum::CENTER_ZOOM_OUT,
-            AnimationTypeEnum::CENTER_ZOOM_IN => new ConstantMovement(),
+            AnimationTypeEnum::CENTER_ZOOM_IN,
+            AnimationTypeEnum::TOP_LEFT_ZOOM_OUT,
+            AnimationTypeEnum::TOP_LEFT_ZOOM_IN => new ConstantMovement(),
             default => new StaticImage(),
         };
     }

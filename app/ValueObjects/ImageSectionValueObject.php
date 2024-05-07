@@ -68,6 +68,8 @@ class ImageSectionValueObject
             AnimationTypeEnum::TOP_RIGHT_TO_BOTTOM_LEFT => [$left, $top] = $this->getLefTopValuesForTopRightToBottomLeft($videoSize, $framePosition),
             AnimationTypeEnum::BOTTOM_LEFT_TO_TOP_RIGHT => [$left, $top] = $this->getLeftTopValuesForBottomLeftToTopRight($videoSize, $framePosition),
             AnimationTypeEnum::BOTTOM_RIGHT_TO_TOP_LEFT => [$left, $top] = $this->getLefTopValuesForBottomRightToTopLeft($videoSize, $framePosition),
+            AnimationTypeEnum::TOP_LEFT_ZOOM_OUT => [$width, $height, $left, $top] = $this->getValuesForTopLeftZoomOut($videoSize, $framePosition),
+            AnimationTypeEnum::TOP_LEFT_ZOOM_IN => [$width, $height, $left, $top] = $this->getValuesForTopLeftZoomIn($videoSize, $framePosition),
             AnimationTypeEnum::CENTER_ZOOM_OUT => [$width, $height, $left, $top] = $this->getValuesForCenterZoomOut($videoSize, $framePosition),
             AnimationTypeEnum::CENTER_ZOOM_IN => [$width, $height, $left, $top] = $this->getValuesForCenterZoomIn($videoSize, $framePosition),
             default => [$left, $top] = $this->getLeftTopValuesForStatic($videoSize),
@@ -112,7 +114,7 @@ class ImageSectionValueObject
         return [$left, $top];
     }
 
-    private function getValuesForCenterZoomOut(VideoSizeEnum $videoSize, int $framePosition): array
+    private function getValuesForTopLeftZoomOut(VideoSizeEnum $videoSize, int $framePosition): array
     {
         $totalFrames = $this->seconds * FrameService::FRAMES_PER_SECOND;
         $deltaX = $this->image->width() - $videoSize->getWidth();
@@ -128,7 +130,7 @@ class ImageSectionValueObject
         return [$width, $height, $left, $top];
     }
 
-    private function getValuesForCenterZoomIn(VideoSizeEnum $videoSize, int $framePosition): array
+    private function getValuesForTopLeftZoomIn(VideoSizeEnum $videoSize, int $framePosition): array
     {
         $totalFrames = $this->seconds * FrameService::FRAMES_PER_SECOND;
         $deltaX = $this->image->width() - $videoSize->getWidth();
@@ -170,5 +172,37 @@ class ImageSectionValueObject
         $top = $deltaY - $deltaY * ($factor * $framePosition) / 100;
 
         return [$left, $top];
+    }
+
+    private function getValuesForCenterZoomOut(VideoSizeEnum $videoSize, int $framePosition)
+    {
+        $totalFrames = $this->seconds * FrameService::FRAMES_PER_SECOND;
+        $deltaX = $this->image->width() - $videoSize->getWidth();
+        $deltaY = $this->image->height() - $videoSize->getHeight();
+        $factor = 100 / $totalFrames;
+        $width = $this->image->width() - $deltaX * ($factor * $framePosition) / 100;
+        $height = $this->image->height() - $deltaY * ($factor * $framePosition) / 100;
+        $left = ($width - $videoSize->getWidth()) / 2;
+        $top = ($height - $videoSize->getHeight()) / 2;
+
+        Log::info('Center Zoom Out', [$width, $height, $left, $top]);
+
+        return [$width, $height, $left, $top];
+    }
+
+    private function getValuesForCenterZoomIn(VideoSizeEnum $videoSize, int $framePosition)
+    {
+        $totalFrames = $this->seconds * FrameService::FRAMES_PER_SECOND;
+        $deltaX = $this->image->width() - $videoSize->getWidth();
+        $deltaY = $this->image->height() - $videoSize->getHeight();
+        $factor = 100 / $totalFrames;
+        $width = $videoSize->getWidth() + $deltaX * ($factor * $framePosition) / 100;
+        $height = $videoSize->getHeight() + $deltaY * ($factor * $framePosition) / 100;
+        $left = ($width - $videoSize->getWidth()) / 2;
+        $top = ($height - $videoSize->getHeight()) / 2;
+
+        Log::info('Center Zoom In', [$width, $height, $left, $top]);
+
+        return [$width, $height, $left, $top];
     }
 }

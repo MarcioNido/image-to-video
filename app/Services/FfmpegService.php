@@ -11,9 +11,12 @@ use Intervention\Image\Interfaces\ImageInterface;
  */
 class FfmpegService
 {
+    /**
+     * Old command, in case we need it:
+     * exec("ffmpeg -f image2 -r {$framesPerSecond} -s 1024X576 -i $tempDir/%d.png -r {$framesPerSecond} -c:v prores -pix_fmt yuva444p10le {$outputFile}");
+     */
     public function createVideo(array $frames, string $outputFile): void
     {
-        // create temporary directory and save frames
         $tempDir = storage_path('image-files/' . uniqid());
         mkdir($tempDir);
 
@@ -22,9 +25,17 @@ class FfmpegService
             $frame->toPng()->save($tempDir . '/' . $key . '.png');
         }
 
-        // create video from frames using ffmpeg binary
         $framesPerSecond = FrameService::FRAMES_PER_SECOND;
+        /** @todo: change hardcoded video dimensions */
         exec("ffmpeg -f image2 -r $framesPerSecond -s 640x360 -i $tempDir/%d.png -r $framesPerSecond -vcodec libx264 -crf $framesPerSecond  -pix_fmt yuv420p $outputFile");
-//        exec("ffmpeg -f image2 -r {$framesPerSecond} -s 1024X576 -i $tempDir/%d.png -r {$framesPerSecond} -c:v prores -pix_fmt yuva444p10le {$outputFile}");
+    }
+
+    /**
+     * Old command, in case we need it:
+     * exec('ffmpeg -i ' . $this->baseDir . '/' . $this->id . '.mp4' . ' -i ../audios/' . $audioFile . ' -shortest ' . $this->baseDir . '/' . $this->id . 'a.mp4');
+     */
+    public function addAudio(string $videoFile, string $audioFile, string $outputFile): void
+    {
+        exec("ffmpeg -i $videoFile -i $audioFile -c:v copy -c:a aac -shortest -strict experimental $outputFile");
     }
 }
