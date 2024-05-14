@@ -44,6 +44,20 @@ return [
             'throw' => false,
         ],
 
+        'image-files' => [
+            'driver' => 'local',
+            'root' => storage_path('image-files'),
+            'throw' => false,
+        ],
+
+        'video-files' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/video-files'),
+            'throw' => false,
+            'visibility' => 'public',
+            'url' => env('APP_URL').'/storage/video-files',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

@@ -9,6 +9,7 @@
         "ext-imagick": "*",
         "intervention/image": "^3.6",
         "laravel/framework": "^11.0",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "php-ffmpeg/php-ffmpeg": "^1.2"
     },
