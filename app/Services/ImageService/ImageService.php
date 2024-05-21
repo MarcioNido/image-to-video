@@ -11,6 +11,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 class ImageService
 {
     const PERCENTAGE_OVERSIZE = 1.1;
+    const OVERSIZE_FACTOR = 10;
 
     protected ImageManager $imageManager;
 
@@ -35,8 +36,8 @@ class ImageService
         Log::info('Preparing image: ' . $filePath);
         $image = $this->imageManager->read($filePath);
         $image->cover(
-            $size->getWidth() * self::PERCENTAGE_OVERSIZE,
-            $size->getHeight() * self::PERCENTAGE_OVERSIZE,
+            $size->getWidth() * self::PERCENTAGE_OVERSIZE * self::OVERSIZE_FACTOR,
+            $size->getHeight() * self::PERCENTAGE_OVERSIZE * self::OVERSIZE_FACTOR,
         );
         return $image;
     }
