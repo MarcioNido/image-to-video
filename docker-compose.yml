@@ -1,5 +1,5 @@
 services:
-    laravel.test:
+    php-fpm:
         build:
             context: ./docker/8.3
             dockerfile: Dockerfile
