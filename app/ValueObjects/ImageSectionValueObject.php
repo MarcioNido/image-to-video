@@ -56,6 +56,8 @@ class ImageSectionValueObject
         }
 
         $image->crop($videoSize->getWidth() * ImageService::OVERSIZE_FACTOR, $videoSize->getHeight() * ImageService::OVERSIZE_FACTOR, $left, $top);
+        $image->resize($videoSize->getWidth(), $videoSize->getHeight());
+
         return $image;
     }
 

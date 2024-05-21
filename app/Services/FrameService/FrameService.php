@@ -12,7 +12,7 @@ use Intervention\Image\Typography\FontFactory;
 
 class FrameService
 {
-    const FRAMES_PER_SECOND = 25;
+    const FRAMES_PER_SECOND = 10;
 
     /** @var array<ImageInterface> $frames */
     protected array $frames = [];
