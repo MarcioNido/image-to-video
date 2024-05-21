@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 class ImageService
 {
     const PERCENTAGE_OVERSIZE = 1.1;
-    const OVERSIZE_FACTOR = 10;
+    const OVERSIZE_FACTOR = 2;
 
     protected ImageManager $imageManager;
 
