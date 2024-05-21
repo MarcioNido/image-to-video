@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
+use App\Jobs\ProcessVideo;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class VideoController extends Controller
                 $image,
                 $image->hashName()
             );
-            
+
             $video->images()->create([
                 "path" => "storage/image-files/{$video->id}/{$image->hashName()}",
                 "order" => $i,
@@ -48,6 +49,8 @@ class VideoController extends Controller
         }
 
         $video->load("images");
+
+        ProcessVideo::dispatch($video);
 
         return response()->json($video, 201);
     }

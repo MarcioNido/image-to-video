@@ -9,7 +9,7 @@ use App\Services\FrameService\Animations\StaticImage;
 
 class AnimationFactory
 {
-    public function createAnimation(AnimationTypeEnum $animationType): AnimationInterface
+    public function createAnimation(AnimationTypeEnum|string $animationType): AnimationInterface
     {
         return match ($animationType) {
             AnimationTypeEnum::TOP_LEFT_TO_BOTTOM_RIGHT,

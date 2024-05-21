@@ -2,9 +2,11 @@
 
 namespace Tests\Http\Controllers;
 
+use App\Jobs\ProcessVideo;
 use App\Models\Soundtrack;
 use Illuminate\Http\Testing\File;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -20,6 +22,7 @@ class VideoControllerStoreTest extends TestCase
     public function test_should_pass_if_data_is_valid()
     {
         Storage::fake('image-files');
+        Queue::fake(ProcessVideo::class);
 
         $soundtrack = Soundtrack::factory()->create();
         $image1 = $this->createImage();
@@ -68,6 +71,8 @@ class VideoControllerStoreTest extends TestCase
                 ],
             ],
         ]);
+
+        Queue::assertPushed(ProcessVideo::class);
 
     }
 

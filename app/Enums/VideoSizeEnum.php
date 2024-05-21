@@ -6,7 +6,7 @@ enum VideoSizeEnum: string
 {
     case SMALL = '320x180';
     case MEDIUM = '640x360';
-    case LARGE = '720x405';
+    case LARGE = '720x404';
     case HD = '1280x720';
     case FULL_HD = '1920x1080';
 

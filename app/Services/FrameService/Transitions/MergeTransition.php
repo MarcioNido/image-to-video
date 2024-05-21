@@ -10,10 +10,15 @@ use Intervention\Image\Interfaces\ImageInterface;
 class MergeTransition implements TransitionInterface
 {
     public function __invoke(
-        ImageInterface $image1,
+        ImageInterface|bool $image1,
         ImageSectionValueObject $imageSection,
         VideoSizeEnum $videoSize
     ): array {
+        
+        if (!$image1) {
+            return [];
+        }
+
         $numberOfFrames = FrameService::FRAMES_PER_SECOND * $imageSection->getTransitionSeconds();
 
         $factor = 100 / $numberOfFrames;

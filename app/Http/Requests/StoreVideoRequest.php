@@ -27,6 +27,7 @@ class StoreVideoRequest extends FormRequest
             "images" => "required|array|min:5|max:10",
             "images.*" => "required|image",
             "webhook" => "required|url",
+            "texts" => "required|json",
         ];
     }
 }

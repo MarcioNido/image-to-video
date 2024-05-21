@@ -12,6 +12,11 @@ class Video extends Model
 {
     use HasFactory, HasUuids;
 
+    const STATUS_FAILED = 'failed';
+    const STATUS_PENDING = 'pending';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_READY = 'ready';
+
     protected $fillable = ['user_id', 'soundtrack_id', 'status', 'path', 'webhook'];
 
     public function user(): BelongsTo
