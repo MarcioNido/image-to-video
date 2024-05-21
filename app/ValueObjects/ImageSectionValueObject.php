@@ -52,7 +52,7 @@ class ImageSectionValueObject
         [$width, $height, $left, $top] = $this->getLeftTopValues($videoSize, $framePosition);
 
         if ($width && $height) {
-            $image->resize($width * ImageService::OVERSIZE_FACTOR, $height * ImageService::OVERSIZE_FACTOR);
+            $image->resize($width, $height);
         }
 
         $image->crop($videoSize->getWidth() * ImageService::OVERSIZE_FACTOR, $videoSize->getHeight() * ImageService::OVERSIZE_FACTOR, $left, $top);
