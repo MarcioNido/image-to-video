@@ -25,8 +25,16 @@ class RotateIntegrationUserToken extends Command
     public function handle(): int
     {
         /** @var User $user */
-        $user = User::query()->where('email', 'integration@bdi.com.br')->firstOrFail();
-        
+        $user = User::query()->where('email', 'integration@bdi.com.br')->first();
+
+        if (!$user) {
+            $user = User::query()->create([
+                'name' => 'Integration User',
+                'email' => 'integration@bdi.com.br',
+                'password' => bcrypt('integration'),
+            ]);
+        }
+
         $user->tokens()->delete();
 
         $token = $user->createToken(
