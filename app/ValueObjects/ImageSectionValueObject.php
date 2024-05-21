@@ -185,8 +185,8 @@ class ImageSectionValueObject
         $factor = 100 / $totalFrames;
         $width = $this->image->width() - $deltaX * ($factor * $framePosition) / 100;
         $height = $this->image->height() - $deltaY * ($factor * $framePosition) / 100;
-        $left = ($width - $videoSize->getWidth()) / 2;
-        $top = ($height - $videoSize->getHeight()) / 2;
+        $left = ($width - ($videoSize->getWidth() * ImageService::OVERSIZE_FACTOR)) / 2;
+        $top = ($height - ($videoSize->getHeight() * ImageService::OVERSIZE_FACTOR)) / 2;
 
         Log::info('Center Zoom Out', [$width, $height, $left, $top]);
 
@@ -199,10 +199,10 @@ class ImageSectionValueObject
         $deltaX = $this->image->width() - ($videoSize->getWidth() * ImageService::OVERSIZE_FACTOR);
         $deltaY = $this->image->height() - ($videoSize->getHeight() * ImageService::OVERSIZE_FACTOR);
         $factor = 100 / $totalFrames;
-        $width = $videoSize->getWidth() + $deltaX * ($factor * $framePosition) / 100;
-        $height = $videoSize->getHeight() + $deltaY * ($factor * $framePosition) / 100;
-        $left = ($width - $videoSize->getWidth()) / 2;
-        $top = ($height - $videoSize->getHeight()) / 2;
+        $width = ($videoSize->getWidth() * ImageService::OVERSIZE_FACTOR) + $deltaX * ($factor * $framePosition) / 100;
+        $height = ($videoSize->getHeight() * ImageService::OVERSIZE_FACTOR) + $deltaY * ($factor * $framePosition) / 100;
+        $left = ($width - ($videoSize->getWidth() * ImageService::OVERSIZE_FACTOR)) / 2;
+        $top = ($height - ($videoSize->getHeight() * ImageService::OVERSIZE_FACTOR)) / 2;
 
         Log::info('Center Zoom In', [$width, $height, $left, $top]);
 
