@@ -17,7 +17,8 @@ class Video extends Model
     const STATUS_PROCESSING = 'processing';
     const STATUS_READY = 'ready';
 
-    protected $fillable = ['user_id', 'soundtrack_id', 'status', 'path', 'webhook'];
+    protected $fillable = ['user_id', 'soundtrack_id', 'status', 'path', 'webhook', 'texts'];
+    protected $casts = ['texts' => 'array'];
 
     public function user(): BelongsTo
     {

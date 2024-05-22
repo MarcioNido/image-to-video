@@ -10,8 +10,8 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class ImageService
 {
-    const PERCENTAGE_OVERSIZE = 1.1;
-    const OVERSIZE_FACTOR = 2;
+    const OVERSIZE_FACTOR = 1.1;
+    const OVERSIZE_QUALITY_FACTOR = 2;
 
     protected ImageManager $imageManager;
 
@@ -22,7 +22,6 @@ class ImageService
 
     public function prepareImages(array $array, VideoSizeEnum $size): array
     {
-        Log::info('Preparing images', $array);
         $imageArray = [];
         foreach ($array as $filePath) {
             $imageArray[] = $this->prepareImage($filePath, $size);
@@ -36,8 +35,8 @@ class ImageService
         Log::info('Preparing image: ' . $filePath);
         $image = $this->imageManager->read($filePath);
         $image->cover(
-            $size->getWidth() * self::PERCENTAGE_OVERSIZE * self::OVERSIZE_FACTOR,
-            $size->getHeight() * self::PERCENTAGE_OVERSIZE * self::OVERSIZE_FACTOR,
+            $size->getWidth() * self::OVERSIZE_FACTOR * self::OVERSIZE_QUALITY_FACTOR,
+            $size->getHeight() * self::OVERSIZE_FACTOR * self::OVERSIZE_QUALITY_FACTOR,
         );
         return $image;
     }

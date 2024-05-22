@@ -28,20 +28,23 @@ class VideoController extends Controller
     {
         $validated = $request->validated();
 
+        $validated["texts"] = json_decode($validated["texts"] ?? [], true);
+
         $video = $request->user()->videos()->create($validated);
 
         $images = $validated["images"];
         $i = 1;
         foreach ($images as $image) {
             /** @var UploadedFile $image */
-            Storage::disk("image-files")->putFileAs(
-                $video->id,
+            Storage::disk("workspace")->putFileAs(
+                $video->id . "/uploaded-images",
                 $image,
                 $image->hashName()
             );
 
             $video->images()->create([
-                "path" => "storage/image-files/{$video->id}/{$image->hashName()}",
+                "path" => Storage::disk("workspace")
+                    ->path($video->id . "/uploaded-images/" . $image->hashName()),
                 "order" => $i,
             ]);
 

@@ -45,8 +45,12 @@ class SequenceService
         return $this;
     }
 
-    public function addTextSequence(string $text, int $x, int $y, int $startTime, int $duration): static
+    public function addTextSequence(string|null $text, int $x, int $y, int $startTime, int $duration): static
     {
+        if (!$text) {
+            return $this;
+        }
+
         $this->textSection[] = new TextSectionValueObject($text, $x, $y, $startTime, $duration);
         return $this;
     }

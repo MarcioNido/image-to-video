@@ -50,6 +50,18 @@ return [
             'throw' => false,
         ],
 
+        'audio-files' => [
+            'driver' => 'local',
+            'root' => storage_path('audio-files'),
+            'throw' => false,
+        ],
+
+        'workspace' => [
+            'driver' => 'local',
+            'root' => storage_path('workspace'),
+            'throw' => false,
+        ],
+
         'video-files' => [
             'driver' => 'local',
             'root' => storage_path('app/public/video-files'),

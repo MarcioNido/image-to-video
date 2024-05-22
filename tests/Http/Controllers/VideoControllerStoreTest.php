@@ -30,6 +30,16 @@ class VideoControllerStoreTest extends TestCase
         $image3 = $this->createImage();
         $image4 = $this->createImage();
         $image5 = $this->createImage();
+        $texts = json_encode([
+            [
+                "title" => "Apartamento Vila Mariana",
+                "subtitle" => "3 quartos, 1 suíte, 2 banheiros",
+                "x" => 30,
+                "y" => 250,
+                "start_time" => 5,
+                "duration" => 10,
+            ],
+        ]);
 
         $response = $this->actingAsIntegrationUser()->postJson(route('videos.store'), [
             'soundtrack_id' => $soundtrack->id,
@@ -41,6 +51,7 @@ class VideoControllerStoreTest extends TestCase
                 $image5,
             ],
             'webhook' => 'https://example.com',
+            'texts' => $texts,
         ]);
 
         $response->assertCreated();
