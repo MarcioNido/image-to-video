@@ -40,4 +40,9 @@ class ImageService
         );
         return $image;
     }
+
+    public function getWatermark(): ImageInterface
+    {
+        return $this->imageManager->read(storage_path('watermark-tiny.png'));
+    }
 }

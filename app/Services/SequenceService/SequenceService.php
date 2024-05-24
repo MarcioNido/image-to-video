@@ -100,4 +100,13 @@ class SequenceService
         }
         return $this;
     }
+
+    public function addWaterMark(): void
+    {
+        $watermark = $this->imageService->getWatermark();
+        $this->frames = array_map(function ($frame) use ($watermark) {
+            $frame->place($watermark, 'top-right', 10, 10);
+            return $frame;
+        }, $this->frames);
+    }
 }

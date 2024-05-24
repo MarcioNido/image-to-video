@@ -85,6 +85,7 @@ class ProcessVideo implements ShouldQueue
         }
 
         $sequenceService->processSequence();
+        $sequenceService->addWaterMark();
 
         try {
 

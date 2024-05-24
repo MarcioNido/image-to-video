@@ -117,8 +117,10 @@ class ImageToVideo extends Command
             )
             ->processSequence();
 
+        $this->sequence->addWaterMark();
 
         $frames = $this->sequence->getFrames();
+
 
         $videoFile = 'video-files/video_' . uniqid() . '.mp4';
         $videoWithAudioFile = 'video-files/video_with_audio_' . uniqid() . '.mp4';
