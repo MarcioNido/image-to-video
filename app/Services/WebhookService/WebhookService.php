@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class WebhookService
 {
-    public static WebhookService $instance;
+    public static $instance;
     public Client $client;
 
     public function __construct()
